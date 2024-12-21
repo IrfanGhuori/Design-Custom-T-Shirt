@@ -55,8 +55,8 @@ include "config/setting.php";
             <div id="panel-container-item-category" style="width:100%;">
                 <h2>Choose Category</h2>
                 <?php
-                $cat = mysql_query("select * from category order by name_category ASC");
-                while($cat_ = mysql_fetch_array($cat)){
+                $cat = $db_handle->prepare(query: "select * from category order by name_category ASC");
+                while($cat_ = $cat->fetch()){
                     echo "<span title_Category=\"".$cat_['name_category']."\">".$cat_['name_category']."</span>";
                 }
                 ?>
@@ -65,14 +65,14 @@ include "config/setting.php";
             <div id="panel-container-item-pilih">
             <div id="br"></div>
                 <?php
-                $cat2 = mysql_query("select * from category order by name_category ASC");
-                while($cat2_ = mysql_fetch_array($cat2)){
+                $cat2 = $db_handle->prepare(query: "select * from category order by name_category ASC");
+                while($cat2_ = $cat2->fetch()){
                 echo "<div id=\"Items_".$cat2_['name_category']."\" style=\"display:none;text-align:center;\">";
-                    $item_cat = mysql_query("select * from item_category where id_category=".$cat2_['id_category']." order by name_item_category DESC");
-                    while($item_cat_ = mysql_fetch_array($item_cat)){
+                    $item_cat = $db_handle->prepare(query: "select * from item_category where id_category=".$cat2_['id_category']." order by name_item_category DESC");
+                    while($item_cat_ = $item_cat->fetch()){
                     echo "<h2>".$item_cat_['name_item_category']."</h2>";
-                        $product = mysql_query("select * from product where id_item_category=".$item_cat_['id_item_category']."");
-                        while($product_ = mysql_fetch_array($product)){
+                        $product = $db_handle->prepare(query: "select * from product where id_item_category=".$item_cat_['id_item_category']."");
+                        while($product_ = $product->fetch()){
                             echo "<li item_model=\"".$item_cat_['name_item_category']."\" item_info_detail=\"".$product_['item_info']."\" 
                             item_model_detail=\"".$product_['item_model']."\" item_color=\"".$product_['item_color']."\" 
                             onClick=\"chooseItem('".$item_cat_['name_item_category']."','".$product_['item_model']."','".$product_['item_color']."')\" 
@@ -91,13 +91,13 @@ include "config/setting.php";
             <div id="clearer"></div><div id="br"></div>
                 <h2>Choose Color</h2>
                 <?php
-                $item_cat2 = mysql_query("select * from item_category order by name_item_category DESC");
-                    while($item_cat2_ = mysql_fetch_array($item_cat2)){
-                        $product2 = mysql_query("select * from product where id_item_category=".$item_cat2_['id_item_category']."");
-                        while($product2_ = mysql_fetch_array($product2)){
+                $item_cat2 = $db_handle->prepare(query: "select * from item_category order by name_item_category DESC");
+                    while($item_cat2_ = $item_cat2->fetch()){
+                        $product2 = $db_handle->prepare(query: "select * from product where id_item_category=".$item_cat2_['id_item_category']."");
+                        while($product2_ = $product2->fetch()){
                         echo "<div id=\"".$item_cat2_['name_item_category']."-".$product2_['item_model']."\" class=\"pilihanWarnaItem\" style=\"display:none;\">";
-                            $product3 = mysql_query("select * from color_product where id_product=".$product2_['id_product']."");
-                            while($product3_ = mysql_fetch_array($product3)){
+                            $product3 = $db_handle->prepare(query: "select * from color_product where id_product=".$product2_['id_product']."");
+                            while($product3_ = $product3->fetch()){
                             echo "<li onClick=\"chooseItem('".$item_cat2_['name_item_category']."','".$product2_['item_model']."','".$product3_['item_color']."')\" 
                             style=\"background:#".$product3_['color_hexa'].";\" title=\"".$product3_['title']."\"></li> "; // biarkan ada spasi setelah tutup tag li
                             }
@@ -124,8 +124,8 @@ include "config/setting.php";
             
             <div id="fontstylepilihan" style="display:none;">
             <?php
-            $font = mysql_query("select * from font order by name_font ASC");
-            while($font_ = mysql_fetch_array($font)){
+            $font = $db_handle->prepare(query: "select * from font order by name_font ASC");
+            while($font_ = $font->fetch()){
                 echo "<span style=\"font-family:".$font_['name_style'].";\" nama_font=\"".$font_['name_font']."\">".$font_['name_font']."</span>";
             
             }
@@ -146,18 +146,18 @@ include "config/setting.php";
         <div id="br"></div>
         <h2>Choose Image</h2>
             <?php
-            $image_cat = mysql_query("select * from image_category order by name_image_category ASC");
-            while($image_cat_ = mysql_fetch_array($image_cat)){
+            $image_cat = $db_handle->prepare(query: "select * from image_category order by name_image_category ASC");
+            while($image_cat_ = $image_cat->fetch()){
                 echo "<span title_Image=\"".$image_cat_['name_image_category']."\">".$image_cat_['name_image_category']."</span>";
             }
             ?>
         </div>
             <?php
-            $image_cat2 = mysql_query("select * from image_category order by name_image_category ASC");
-            while($image_cat2_ = mysql_fetch_array($image_cat2)){
+            $image_cat2 = $db_handle->prepare(query:"select * from image_category order by name_image_category ASC");
+            while($image_cat2_ = $image_cat2->fetch()){
                 echo "<div id=\"image_".$image_cat2_['name_image_category']."\" class=\"image-wraps\" style=\"display:none;text-align:center;\">";
-                $gambar = mysql_query("select * from gambar where id_image_category=".$image_cat2_['id_image_category']."");
-                while($gambar_ = mysql_fetch_array($gambar)){
+                $gambar = $db_handle->prepare(query: "select * from gambar where id_image_category=".$image_cat2_['id_image_category']."");
+                while($gambar_ = $gambar->fetch()){
                     echo "<img src=\"icons/".$gambar_['folder']."/".$gambar_['name_gambar']."\"/>";
                 }
                 echo "</div>";
